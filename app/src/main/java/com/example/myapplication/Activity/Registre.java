@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +19,11 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+import com.example.myapplication.AdaptadorServicios;
+import com.example.myapplication.CrearServicio;
+import com.example.myapplication.DataBase;
 import com.example.myapplication.Entidades.Firebase.Usuario;
+import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -36,13 +39,11 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Registre extends AppCompatActivity {
-    private  DataBase conexionBD = new DataBase();
+    private DataBase conexionBD = new DataBase();
     private static final int PICK_IMAGE = 1;
     private  Uri imageUri;
     private  CircleImageView ProfileImage;
