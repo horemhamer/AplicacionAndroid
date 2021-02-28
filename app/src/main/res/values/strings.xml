@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Benku</string>
+    <string name="invalid_name">Entra un nom d\'usuari</string>
+    <string name="invalid_email">El correu no es valit</string>
+    <string name="invalid_password">La contrasenya no es segura</string>
+    <string name="invalid_edad">Introdueix una edat correcta</string>
+    <string name="invalid_confirmpassword">La contrasenya no coincideix</string>
+    <string name="invalidlocation">La localització no és correcta</string>
+    <string name="empty_email">No deixis el camp buit</string>
+    <string name="empty_password">No deixis el camp buit</string>
+    <string name="empty_location">No deixis el camp buit</string>
+    <string name="empty_age">No deixis el camp buit</string>
+    <string name="empty_confirmpass">No deixis el camp buit</string>
+    <string name="empty_service">No deixis el camp buit</string>
+    <string name="empty_desc">No deixis el camp buit</string>
+</resources>

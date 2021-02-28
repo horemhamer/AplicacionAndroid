@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "59969186323",
+    "project_id": "benku-4adaa",
+    "storage_bucket": "benku-4adaa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59969186323:android:3b40ae9c75528b7cd92de6",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "59969186323-tkpladiqjtrueo3g83vafn8fpap6jb6t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "e31547c723b609124d9afa57ad1ac5beb322d7b2"
+          }
+        },
+        {
+          "client_id": "59969186323-066dj3ev04a7tidmr6tgso1el1d3kslt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiYQnmYgK9djWIr9uN_X42TUX1oePDqWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "59969186323-066dj3ev04a7tidmr6tgso1el1d3kslt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
