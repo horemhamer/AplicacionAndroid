@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Entidades.BaseDatos;
 
 import android.os.StrictMode;
 import android.widget.Toast;

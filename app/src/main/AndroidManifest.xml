@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity android:name=".Activity.Cambiardatos"></activity>
-        <activity android:name=".CrearServicio" />
+        <activity android:name=".Activity.CrearServicio" />
         <activity android:name=".Activity.Servicios" />
         <activity android:name=".Chat" />
         <activity android:name=".Activity.Menu" />

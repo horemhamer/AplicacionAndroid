@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,8 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +17,8 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.google.common.collect.Range;
+import com.example.myapplication.Entidades.BaseDatos.DataBase;
+import com.example.myapplication.R;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.PreparedStatement;
@@ -27,7 +26,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class CrearServicio extends AppCompatActivity {
-    private  DataBase conexionBD = new DataBase();
+    private DataBase conexionBD = new DataBase();
     ImageView imagenservei;
     private Uri imageUri;
     private static final int PICK_IMAGE = 1;
