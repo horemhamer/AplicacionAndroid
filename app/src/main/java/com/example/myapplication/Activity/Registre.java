@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.example.myapplication.AdaptadorServicios;
 import com.example.myapplication.Entidades.BaseDatos.DataBase;
 import com.example.myapplication.Entidades.Firebase.Usuario;
 import com.example.myapplication.R;

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +23,7 @@ import com.example.myapplication.Entidades.Logica.LMensaje;
 import com.example.myapplication.Entidades.Logica.LUsuario;
 import com.example.myapplication.Persistencia.MensajeriaDAO;
 import com.example.myapplication.Persistencia.UsuarioDAO;
+import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +32,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -48,15 +48,16 @@ public class Chat extends AppCompatActivity {
     TextView nombre;
     RecyclerView rMensajes;
     EditText txtMensaje;
-    Button btnEnviar;
+    Button btnEnviar, btnMenu;
     FirebaseAuth mAuth;
     AdaptarMensajes adaptador;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     ImageButton btnEnviarFoto;
-    String NOMBRE_USUARIO;
+    String NOMBRE_USUARIO, KEY_RECEPTOR;
     private final int PHOTO_SEND=1;
-    String KEY_RECEPTOR;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +73,7 @@ public class Chat extends AppCompatActivity {
         txtMensaje = findViewById(R.id.editMensaje);
         btnEnviar = findViewById(R.id.btnEnviarMensaje);
         btnEnviarFoto = findViewById(R.id.btnEnviarFoto);
+        btnMenu = findViewById(R.id.btnMenu);
         adaptador = new AdaptarMensajes(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mAuth = FirebaseAuth.getInstance();
@@ -108,6 +110,16 @@ public class Chat extends AppCompatActivity {
 
 
 
+            }
+        });
+
+
+
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Chat.this, Menu.class);
+                startActivity(i);
             }
         });
 

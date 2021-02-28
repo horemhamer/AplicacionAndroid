@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Activity;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.HolderServicio;
+import com.example.myapplication.InfoServicio;
+import com.example.myapplication.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

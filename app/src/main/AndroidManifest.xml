@@ -15,7 +15,7 @@
         <activity android:name=".Activity.Cambiardatos"></activity>
         <activity android:name=".Activity.CrearServicio" />
         <activity android:name=".Activity.Servicios" />
-        <activity android:name=".Chat" />
+        <activity android:name=".Activity.Chat" />
         <activity android:name=".Activity.Menu" />
         <activity android:name=".Activity.Registre" />
         <activity android:name=".Activity.MainActivity">

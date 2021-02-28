@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.example.myapplication.AdaptadorServicios;
 import com.example.myapplication.R;
 
 public class Servicios extends AppCompatActivity {
