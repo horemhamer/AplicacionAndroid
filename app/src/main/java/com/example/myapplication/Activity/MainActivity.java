@@ -3,7 +3,9 @@ package com.example.myapplication.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,12 +33,14 @@ import java.sql.Statement;
 public class MainActivity extends AppCompatActivity {
     Button botoregistre;
     Button botologin;
-    EditText usuari, contrasenya, correo;
+     EditText usuari, contrasenya, correo;
     DataBase conexionBD = new DataBase();
     private AwesomeValidation validation;
     FirebaseAuth mAuth;
     FirebaseDatabase database;
     TextInputLayout textInputLayout;
+    String scorreo, spass;
+    Preferencias preferencias = new Preferencias();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +53,18 @@ public class MainActivity extends AppCompatActivity {
          mAuth = FirebaseAuth.getInstance();
         correo = findViewById(R.id.editEmail);
         textInputLayout = findViewById(R.id.textInputLayout);
+        setScorreo(correo.getText().toString());
+        correo.setText(scorreo);
         database = FirebaseDatabase.getInstance("https://benku-4adaa-default-rtdb.firebaseio.com/");
-
+        preferencias.cargarPreferencias(this);
         mostrarIcono();
 
         botologin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  ComprobarUsuari();
-                iniciarSesionFirebase();
+             ComprobarUsuari();
+
+              //  iniciarSesionFirebase();
             }
         });
 
@@ -91,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    protected void iniciarSesionFirebase(){
+  /*  protected void iniciarSesionFirebase(){
         String email = correo.getText().toString();
         String password = contrasenya.getText().toString();
         if(validarFormulario()){
@@ -112,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-    }
+    }*/
 
 
 
@@ -135,8 +142,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser!=null){
+        if(preferencias.getLogueado()){
             autoActivity();
         }
     }
@@ -150,22 +156,47 @@ public class MainActivity extends AppCompatActivity {
         try{
             Statement st=conexionBD.conexionBD().createStatement();
             ResultSet rs= st.executeQuery("select* from Usuari where tipus_usuari='Final'");
-            String nusuari = "";
+            String nemail = "";
             String npassword = "";
-            while(rs.next()){
-                nusuari = rs.getString("usuari");
-                npassword = rs.getString("password");
-                if(usuari.getText().toString().trim().equals(nusuari) && contrasenya.getText().toString().trim().equals(npassword)){
+            if(validarFormulario()){
+                while(rs.next()){
+                    nemail = rs.getString("correu");
+                    npassword = rs.getString("contrasenya");
+                    if(correo.getText().toString().trim().equals(nemail) && contrasenya.getText().toString().trim().equals(npassword)){
+                       preferencias.setLogueado(true);
+                        preferencias.guardarPreferencia(this);
+                        Toast.makeText(getApplicationContext(),"hola",Toast.LENGTH_SHORT).show();
+                        Intent intent2 = new Intent(MainActivity.this, Menu.class);
+                        intent2.putExtra("EditTextValue",correo.getText().toString());
+                        startActivity(intent2);
+                    }else{
+                      preferencias.setLogueado(false);
+                    }
 
-                    Toast.makeText(getApplicationContext(),"hola",Toast.LENGTH_SHORT).show();
-                    Intent intent2 = new Intent(MainActivity.this, Menu.class);
-                    startActivity(intent2);
+
                 }
-
             }
+
 
         }catch(Exception e){
             Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
         }
     }
+
+    public String getScorreo() {
+        return scorreo;
+    }
+
+    public void setScorreo(String scorreo) {
+        this.scorreo = scorreo;
+    }
+
+    public String getSpass() {
+        return spass;
+    }
+
+    public void setSpass(String spass) {
+        this.spass = spass;
+    }
+
 }

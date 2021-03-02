@@ -1,18 +1,22 @@
-package com.example.myapplication;
+package com.example.myapplication.Activity;
+
+import android.widget.Button;
 
 public class InfoServicio {
     String nombreuser;
     String servicio;
     String descripcion;
     String imgperfil;
+    String imgserv;
     public InfoServicio() {
     }
 
-    public InfoServicio(String nombreuser, String servicio, String descripcion, String imgperfil) {
+    public InfoServicio(String nombreuser, String servicio, String descripcion, String imgperfil, String imgserv) {
         this.nombreuser = nombreuser;
         this.servicio = servicio;
         this.descripcion = descripcion;
         this.imgperfil = imgperfil;
+        this.imgserv = imgserv;
     }
 
     public String getNombreuser() {
@@ -45,5 +49,13 @@ public class InfoServicio {
 
     public void setImgperfil(String imgperfil) {
         this.imgperfil = imgperfil;
+    }
+
+    public String getImgserv() {
+        return imgserv;
+    }
+
+    public void setImgserv(String imgserv) {
+        this.imgserv = imgserv;
     }
 }

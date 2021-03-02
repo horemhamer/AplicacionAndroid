@@ -75,7 +75,6 @@ public class Registre extends AppCompatActivity {
         desc = findViewById(R.id.editDescripcion);
         storageReference = FirebaseStorage.getInstance().getReference();
         servicios = new Servicios();
-        adaptadorServicios = new AdaptadorServicios(servicios.getC());
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance("https://benku-4adaa-default-rtdb.firebaseio.com/");
 
@@ -86,9 +85,9 @@ public class Registre extends AppCompatActivity {
            confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //guardarUsuarios();
-                Intent intent = new Intent(Registre.this, CrearServicio.class);
-                startActivity(intent);
+               guardarUsuarios();
+              /*  Intent intent = new Intent(Registre.this, CrearServicio.class);
+                startActivity(intent);*/
            //  usuarioFirebase();
 
             }
@@ -232,9 +231,10 @@ public class Registre extends AppCompatActivity {
             st.setBytes(7, bytes);
             if(validarFormulario()){
                 st.executeUpdate();
+                Toast.makeText(getApplicationContext(),"Registro agregado correctamente",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Registre.this, CrearServicio.class);
                 startActivity(intent);
-                Toast.makeText(getApplicationContext(),"Registro agregado correctamente",Toast.LENGTH_SHORT).show();
+
             }
 
 

@@ -2,10 +2,13 @@ package com.example.myapplication.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.myapplication.Entidades.BaseDatos.DataBase;
 import com.example.myapplication.R;
@@ -17,7 +20,8 @@ public class Menu extends AppCompatActivity {
     DataBase conexionBD = new DataBase();
     CircleImageView imagemuestra;
     Button logout, bustia, verservicio, cambiar;
-
+    Preferencias preferencias = new Preferencias();
+    Context c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,12 +31,21 @@ public class Menu extends AppCompatActivity {
         bustia = findViewById(R.id.btnBustia);
         verservicio = findViewById(R.id.btnVerServicios);
         cambiar = findViewById(R.id.btnCambiar);
-
+        c = this;
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                finish();
+
+
+              /* mainActivity.correo.setText("");
+                mainActivity.contrasenya.setText("");*/
+                preferencias.setLogueado(false);
+                preferencias.guardarPreferencia(c);
+
+                Intent intent = new Intent(Menu.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
             }
         });
 
