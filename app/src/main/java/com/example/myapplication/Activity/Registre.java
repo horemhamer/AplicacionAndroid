@@ -85,9 +85,9 @@ public class Registre extends AppCompatActivity {
            confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               guardarUsuarios();
-              /*  Intent intent = new Intent(Registre.this, CrearServicio.class);
-                startActivity(intent);*/
+             guardarUsuarios();
+                Intent intent = new Intent(Registre.this, CrearServicio.class);
+                startActivity(intent);
            //  usuarioFirebase();
 
             }

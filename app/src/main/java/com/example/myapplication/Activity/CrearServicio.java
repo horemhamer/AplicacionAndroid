@@ -99,6 +99,8 @@ public class CrearServicio extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] bytes = baos.toByteArray();
 
+
+
         try{
 
             PreparedStatement st=conexionBD.conexionBD().prepareStatement("INSERT INTO Serveis VALUES(?,?,?)");
@@ -114,11 +116,11 @@ public class CrearServicio extends AppCompatActivity {
 
         }catch (Exception e){
 
-            Toast.makeText(getApplicationContext(),"No se ha guardado el servicio",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
 
-    protected void crearServicio(){
+   /* protected void crearServicio(){
         String nombreuser = "";
         String nservicio = "";
         String ndesc = "";
@@ -147,7 +149,7 @@ public class CrearServicio extends AppCompatActivity {
         }
 
     }
-
+*/
     public boolean getImageselect() {
         return imageselect;
     }

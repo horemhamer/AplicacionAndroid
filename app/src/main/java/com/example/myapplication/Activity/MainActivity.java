@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseDatabase database;
     TextInputLayout textInputLayout;
-    String scorreo, spass;
     Preferencias preferencias = new Preferencias();
 
     @Override
@@ -53,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
          mAuth = FirebaseAuth.getInstance();
         correo = findViewById(R.id.editEmail);
         textInputLayout = findViewById(R.id.textInputLayout);
-        setScorreo(correo.getText().toString());
-        correo.setText(scorreo);
         database = FirebaseDatabase.getInstance("https://benku-4adaa-default-rtdb.firebaseio.com/");
         preferencias.cargarPreferencias(this);
         mostrarIcono();
@@ -183,20 +180,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String getScorreo() {
-        return scorreo;
-    }
 
-    public void setScorreo(String scorreo) {
-        this.scorreo = scorreo;
-    }
-
-    public String getSpass() {
-        return spass;
-    }
-
-    public void setSpass(String spass) {
-        this.spass = spass;
-    }
 
 }

@@ -33,10 +33,9 @@ public class Servicios extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_servicios);
         lServicios = findViewById(R.id.lServicios);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         listaObjeto = new ArrayList<InfoServicio>();
-        adaptador = new AdaptadorServicios(this, listaObjeto);
-
+        Lista();
+        adaptador = new AdaptadorServicios(this, getListaObjeto());
     }
 
 
@@ -48,20 +47,17 @@ public class Servicios extends AppCompatActivity {
 
     protected void Lista(){
 
-        int i = 0;
-
-
         try{
             Statement st=dataBase.conexionBD().createStatement();
-            ResultSet rs= st.executeQuery("select* from Serveis");
+            ResultSet rs= st.executeQuery("select* from Usuari,Serveis where tipus_usuari='Final' AND id_usuari=id_servei");
             String nusuari = "";
             String npassword = "";
             while(rs.next()){
-                i++;
-              /*  nusuari = rs.getString("usuari");
+                      /*  nusuari = rs.getString("usuari");
                 npassword = rs.getString("password");*/
                 try{
                   listaObjeto.add(new InfoServicio(rs.getString("a"),rs.getString("s"),rs.getString("s"),rs.getString(""),rs.getString("")));
+
                     lServicios.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                     lServicios.setAdapter(adaptador);
                     //adaptador.list.get(i);
@@ -77,5 +73,11 @@ public class Servicios extends AppCompatActivity {
     }
 
 
+    public ArrayList<InfoServicio> getListaObjeto() {
+        return listaObjeto;
+    }
 
+    public void setListaObjeto(ArrayList<InfoServicio> listaObjeto) {
+        this.listaObjeto = listaObjeto;
+    }
 }
