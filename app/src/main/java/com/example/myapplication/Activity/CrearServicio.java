@@ -34,6 +34,7 @@ public class CrearServicio extends AppCompatActivity {
     private AwesomeValidation validation;
     Button btnservei;
     protected boolean imageselect;
+    private int idusuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +104,8 @@ public class CrearServicio extends AppCompatActivity {
 
         try{
 
-            PreparedStatement st=conexionBD.conexionBD().prepareStatement("INSERT INTO Serveis VALUES(?,?,?)");
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("INSERT INTO Serveis (id_usuari,titol,descripcio,imatge_servei) VALUES(?,?,?,?)");
+            st.setInt(1,getIDUsuario());
             st.setString(2, especialidad.getText().toString());
             st.setString(3, desc.getText().toString());
             st.setBytes(4,bytes);
@@ -118,6 +120,23 @@ public class CrearServicio extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    protected int getIDUsuario(){
+        try{
+            Statement st=conexionBD.conexionBD().createStatement();
+            ResultSet rs= st.executeQuery("select* from Usuari where tipus_usuari='Final'");
+
+            while(rs.next()){
+                idusuario = rs.getInt("id_usuari");
+            }
+
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+        }
+
+        return idusuario;
     }
 
    /* protected void crearServicio(){
