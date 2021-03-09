@@ -108,10 +108,6 @@ public class Registre extends AppCompatActivity {
             }
         });
 
-
-
-
-
     }
 
 
@@ -151,7 +147,6 @@ public class Registre extends AppCompatActivity {
         if(!contra.getText().toString().trim().equals(confirmcontra.getText().toString().trim())&&!contra.getText().toString().equals("")&&!confirmcontra.getText().toString().equals("")){
             validation.addValidation(this,R.id.editConfirmaContra, R.id.editContra,R.string.invalid_confirmpassword);
         }
-
 
 
             if(nusuari.getText().toString().trim().equals(getUsuarioBD())&&correo.getText().toString().trim().equals(getEmailBD())) {
@@ -261,6 +256,9 @@ public class Registre extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Mal",Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
 
     protected String getUsuarioBD(){
         try{
