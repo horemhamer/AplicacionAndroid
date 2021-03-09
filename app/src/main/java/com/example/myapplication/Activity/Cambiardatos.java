@@ -28,10 +28,12 @@ import java.sql.Statement;
 
 public class Cambiardatos extends AppCompatActivity {
 
-    EditText nombre, correo, edad, contraseña;
+    EditText nombre, correo, edad, contraseña, localizacion;
     Button confirmar;
     private DataBase conexionBD = new DataBase();
     private AwesomeValidation validation;
+    private int intedad = 0;
+    private String cnombre, ccorreo, cpass, cedad, cprovincia;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,8 @@ public class Cambiardatos extends AppCompatActivity {
         edad = findViewById(R.id.editMEdat);
         contraseña = findViewById(R.id.editMContra);
         confirmar = findViewById(R.id.btnMConfirmar);
-
+        localizacion = findViewById(R.id.editMLocation);
+        validation = new AwesomeValidation(ValidationStyle.BASIC);
 
         confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,63 +55,208 @@ public class Cambiardatos extends AppCompatActivity {
 
     }
 
-    protected boolean validarFormulario(){
-
-        validation = new AwesomeValidation(ValidationStyle.BASIC);
-        validation.addValidation(this, R.id.editNomUsuari, RegexTemplate.NOT_EMPTY, R.string.invalid_name);
 
 
-                validation.addValidation(this, R.id.editContra, RegexTemplate.NOT_EMPTY, R.string.empty_password);
-                validation.addValidation(this, R.id.editCorreo, RegexTemplate.NOT_EMPTY, R.string.empty_email);
-                validation.addValidation(this, R.id.editConfirmaContra, RegexTemplate.NOT_EMPTY, R.string.empty_confirmpass);
-                validation.addValidation(this, R.id.editLocalizacion, RegexTemplate.NOT_EMPTY, R.string.empty_location);
-                validation.addValidation(this, R.id.editEdad, RegexTemplate.NOT_EMPTY, R.string.empty_age);
-
-
-
-
-
-        return validation.validate();
-    }
 
 
     protected void guardarCambios(){
 
-     /*   BitmapDrawable bitmapDrawable = (BitmapDrawable) ProfileImage.getDrawable();
+    boolean mensaje = false;
+    boolean mensaje2=  false;
+
+  /* BitmapDrawable bitmapDrawable = (BitmapDrawable) ProfileImage.getDrawable();
         Bitmap bitmap = bitmapDrawable.getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);*/
 
-        String cnombre= nombre.getText().toString();
+      //  byte[] bytes = baos.toByteArray();
 
-        byte[] bytes = baos.toByteArray();
+
+        if(!getNombre().equals("")&&validarNombre()){
+            guardarNombre();
+            mensaje = true;
+        }
+
+        if(!getNombre().equals("")){
+            mensaje2 = true;
+        }
+
+        if(!getPass().equals("")&& validarPass()){
+            guardarPass();
+            mensaje = true;
+        }
+        if(!getPass().equals("")){
+            mensaje2 = true;
+        }
+
+        if(!getEmail().equals("")&&validarEmail()){
+            guardarEmail();
+            mensaje = true;
+        }
+
+        if(!validarEmail()){
+            mensaje2 = true;
+        }
+
+        if(!getEdad().equals("")&&validarEdad()){
+            guardarEdad();
+            mensaje = true;
+        }
+        if(!getEdad().equals("")){
+            mensaje2 = true;
+        }
+
+        if(!getProvincia().equals("")&&validarLocaltion()){
+            guardarLocation();
+            mensaje = true;
+        }
+        if(!getProvincia().equals("")){
+            mensaje2 = true;
+        }
+
+
+
+        if(mensaje == true){
+            Toast.makeText(getApplicationContext(),"Els canvis s'han efectuat correctament",Toast.LENGTH_SHORT).show();
+        }else if(mensaje2==true){
+
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Omple un camp minim",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    protected boolean validarNombre(){
+        validation.addValidation(this,R.id.editMNom,"/^[a-z ,.'-]+$/i", R.string.invalid_nom);
+        return  validation.validate();
+    }
+
+    protected boolean validarPass(){
+        validation.addValidation(this,R.id.editMContra, ".{4,}", R.string.invalid_password);
+        return  validation.validate();
+    }
+
+    protected boolean validarEmail(){
+        validation.addValidation(this,R.id.editMEmail, Patterns.EMAIL_ADDRESS, R.string.invalid_email);
+        return  validation.validate();
+    }
+
+    protected boolean validarEdad(){
+        validation.addValidation(this,R.id.editMEdat, Range.closed(18, 60), R.string.invalid_edad);
+        return  validation.validate();
+    }
+
+    protected boolean validarLocaltion(){
+        validation.addValidation(this,R.id.editMLocation, "(?:Lleida|Girona|Tarragona|Barcelona)", R.string.invalidlocation);
+        return  validation.validate();
+    }
+
+    protected void guardarLocation(){
+        try{
+
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET localitzacio=? where tipus_usuari='Final'");
+            st.setString(1,getProvincia());
+            st.executeUpdate();
+            st.close();
+
+
+        }catch (Exception e){
+
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+    protected void guardarEmail(){
+        try{
+
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET correu=? where tipus_usuari='Final'");
+            st.setString(1,getEmail());
+            st.executeUpdate();
+            st.close();
+
+
+        }catch (Exception e){
+
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected void guardarPass(){
+        try{
+
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET contrasenya=? where tipus_usuari='Final'");
+            st.setString(1,getPass());
+            st.executeUpdate();
+            st.close();
+
+
+        }catch (Exception e){
+
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    protected void guardarNombre(){
+        try{
+
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET usuari=? where tipus_usuari='Final'");
+            st.setString(1,getNombre());
+            st.executeUpdate();
+            st.close();
+
+
+        }catch (Exception e){
+
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected void guardarEdad(){
 
         try {
-            intedad = Integer.parseInt(edad.getText().toString());
+            intedad = Integer.parseInt(getEdad());
         } catch(NumberFormatException nfe) {
             // Handle parse error.
         }
 
         try{
 
-            Statement st=conexionBD.conexionBD().createStatement();
-            String value = ()
-            ResultSet rs = st.executeQuery("UPDATE Usuari SET usuari='?' where id="+);
-             if(validarFormulario()){
-                st.executeUpdate();
-                Toast.makeText(getApplicationContext(),"Registro agregado correctamente",Toast.LENGTH_SHORT).show();
-             /*   Intent intent = new Intent(Registre.this, CrearServicio.class);
-                startActivity(intent);*/
-
-            }
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET edat=? where tipus_usuari='Final'");
+            st.setInt(1, intedad);
+            st.executeUpdate();
+            st.close();
 
 
-/*        }catch (Exception e){
+        }catch (Exception e){
 
-            Toast.makeText(getApplicationContext(),"Mal",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
-*/
 
+    protected String getNombre(){
+         cnombre= nombre.getText().toString();
+        return cnombre;
+    }
 
+    protected String getEmail(){
+        ccorreo = correo.getText().toString();
+        return ccorreo;
+    }
+
+    public String getPass() {
+        return cpass = contraseña.getText().toString();
+    }
+
+    public String getProvincia() {
+        return cprovincia = localizacion.getText().toString();
+    }
+
+    public String getEdad() {
+        return cedad = edad.getText().toString();
+    }
 }

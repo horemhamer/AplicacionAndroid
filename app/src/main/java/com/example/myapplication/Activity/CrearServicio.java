@@ -100,8 +100,6 @@ public class CrearServicio extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] bytes = baos.toByteArray();
 
-
-
         try{
 
             PreparedStatement st=conexionBD.conexionBD().prepareStatement("INSERT INTO Serveis (id_usuari,titol,descripcio,imatge_servei) VALUES(?,?,?,?)");
@@ -113,6 +111,8 @@ public class CrearServicio extends AppCompatActivity {
              if(validarFormulario()) {
                  st.executeUpdate();
                  Toast.makeText(getApplicationContext(), "Servicio guardado correctamente", Toast.LENGTH_SHORT).show();
+                 Intent intent = new Intent(CrearServicio.this, Menu.class);
+                 startActivity(intent);
              }
 
 

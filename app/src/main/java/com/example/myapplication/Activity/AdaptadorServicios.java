@@ -30,7 +30,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdaptadorServicios  extends BaseAdapter{
+
+/*public class AdaptadorServicios  extends BaseAdapter{
 
     public ArrayList<InfoServicio>list;
     private Context c;
@@ -93,7 +94,7 @@ public class AdaptadorServicios  extends BaseAdapter{
         return null;
     }
 }
-
+*/
 
 /*
 public class AdaptadorServicios extends RecyclerView.Adapter<HolderServicio> {

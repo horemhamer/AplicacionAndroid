@@ -13,4 +13,6 @@
     <string name="empty_confirmpass">No deixis el camp buit</string>
     <string name="empty_service">No deixis el camp buit</string>
     <string name="empty_desc">No deixis el camp buit</string>
+    <string name="invalid_nom">Entra un nom d\'usuari valid</string>
+    <string name="invalid_samemail">El correu ja està sent utilitzat</string>
 </resources>

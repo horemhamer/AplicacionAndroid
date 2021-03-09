@@ -37,6 +37,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -54,7 +56,8 @@ public class Registre extends AppCompatActivity {
     DatabaseReference imgref;
     StorageReference storageReference;
     FirebaseDatabase database;
-    AdaptadorServicios adaptadorServicios;
+    String usuariodb, emaildb;
+   // AdaptadorServicios adaptadorServicios;
     Servicios servicios;
 
 
@@ -85,9 +88,8 @@ public class Registre extends AppCompatActivity {
            confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             guardarUsuarios();
-                Intent intent = new Intent(Registre.this, CrearServicio.class);
-                startActivity(intent);
+//                Toast.makeText(getApplicationContext(),getEmailBD(),Toast.LENGTH_SHORT).show();
+           guardarUsuarios();
            //  usuarioFirebase();
 
             }
@@ -145,9 +147,22 @@ public class Registre extends AppCompatActivity {
                 validation.addValidation(this, R.id.editEdad, Range.closed(18, 60), R.string.invalid_edad);
             }
         }
+
         if(!contra.getText().toString().trim().equals(confirmcontra.getText().toString().trim())&&!contra.getText().toString().equals("")&&!confirmcontra.getText().toString().equals("")){
             validation.addValidation(this,R.id.editConfirmaContra, R.id.editContra,R.string.invalid_confirmpassword);
         }
+
+
+
+            if(nusuari.getText().toString().trim().equals(getUsuarioBD())&&correo.getText().toString().trim().equals(getEmailBD())) {
+            Toast.makeText(getApplicationContext(), "El usuari i el correu ja existeixen", Toast.LENGTH_SHORT).show();
+            }else if(nusuari.getText().toString().trim().equals(getUsuarioBD())){
+            Toast.makeText(getApplicationContext(),"El usuari ja existeix",Toast.LENGTH_SHORT).show();
+            }else   if(correo.getText().toString().trim().equals(getEmailBD())) {
+            Toast.makeText(getApplicationContext(), "El correu electrònic ja se està utilitzant", Toast.LENGTH_SHORT).show();
+            }
+
+
 
 
         return validation.validate();
@@ -207,6 +222,7 @@ public class Registre extends AppCompatActivity {
 
 
     protected void guardarUsuarios(){
+
         BitmapDrawable bitmapDrawable = (BitmapDrawable) ProfileImage.getDrawable();
         Bitmap bitmap = bitmapDrawable.getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -229,13 +245,15 @@ public class Registre extends AppCompatActivity {
             st.setInt(5, intedad);
             st.setString(6, localizacion.getText().toString());
             st.setBytes(7, bytes);
-            if(validarFormulario()){
+
+            if(validarFormulario()&&!nusuari.getText().toString().trim().equals(getUsuarioBD())&&!correo.getText().toString().trim().equals(getEmailBD())){
                 st.executeUpdate();
                 Toast.makeText(getApplicationContext(),"Registro agregado correctamente",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Registre.this, CrearServicio.class);
                 startActivity(intent);
-
             }
+
+
 
 
         }catch (Exception e){
@@ -243,6 +261,40 @@ public class Registre extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Mal",Toast.LENGTH_SHORT).show();
         }
     }
+
+    protected String getUsuarioBD(){
+        try{
+            Statement st=conexionBD.conexionBD().createStatement();
+            ResultSet rs= st.executeQuery("select* from Usuari where tipus_usuari='Final'");
+
+            while(rs.next()){
+                usuariodb = rs.getString("usuari");
+            }
+
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+        }
+
+        return usuariodb;
+    }
+
+
+    protected String getEmailBD(){
+        try{
+            Statement st=conexionBD.conexionBD().createStatement();
+            ResultSet rs= st.executeQuery("select* from Usuari where tipus_usuari='Final'");
+
+            while(rs.next()){
+                emaildb = rs.getString("correu");
+            }
+
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+        }
+
+        return emaildb;
+    }
+
 
 
 }

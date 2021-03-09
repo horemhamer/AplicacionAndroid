@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class Servicios extends AppCompatActivity {
 
     ListView lServicios;
-    AdaptadorServicios adaptador;
+    //AdaptadorServicios adaptador;
     private Context c;
     ArrayList<InfoServicio>listaObjeto = new ArrayList<>();
     DataBase dataBase = new DataBase();
@@ -35,7 +35,8 @@ public class Servicios extends AppCompatActivity {
         lServicios = findViewById(R.id.lServicios);
         listaObjeto = new ArrayList<InfoServicio>();
         Lista();
-        adaptador = new AdaptadorServicios(this, getListaObjeto());
+      //  adaptador = new AdaptadorServicios(this, getListaObjeto());
+      //  lServicios.setAdapter(adaptador);
     }
 
 
@@ -46,21 +47,22 @@ public class Servicios extends AppCompatActivity {
 
 
     protected void Lista(){
-
+        int i =0;
         try{
             Statement st=dataBase.conexionBD().createStatement();
             ResultSet rs= st.executeQuery("select* from Usuari,Serveis where tipus_usuari='Final' AND id_usuari=id_servei");
             String nusuari = "";
             String npassword = "";
             while(rs.next()){
+                i++;
                       /*  nusuari = rs.getString("usuari");
                 npassword = rs.getString("password");*/
                 try{
-                  listaObjeto.add(new InfoServicio(rs.getString("a"),rs.getString("s"),rs.getString("s"),rs.getString(""),rs.getString("")));
+                  listaObjeto.add(new InfoServicio(rs.getString("usuari"),rs.getString("titol"),rs.getString("descipcio"),rs.getString("imatge"),rs.getString("imatge_servei")));
 
                     lServicios.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                    lServicios.setAdapter(adaptador);
-                    //adaptador.list.get(i);
+
+                  //  adaptador.list.get(i);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
