@@ -52,7 +52,7 @@ public class Menu extends AppCompatActivity {
         bustia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Menu.this, Chat.class);
+                Intent intent = new Intent(Menu.this, Reportar.class);
                 startActivity(intent);
             }
         });

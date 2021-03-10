@@ -157,9 +157,6 @@ public class Registre extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "El correu electrònic ja se està utilitzant", Toast.LENGTH_SHORT).show();
             }
 
-
-
-
         return validation.validate();
     }
 

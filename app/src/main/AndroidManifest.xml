@@ -12,7 +12,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".Activity.Cambiardatos"></activity>
+        <activity android:name=".Activity.Reportar"></activity>
+        <activity android:name=".Activity.Cambiardatos" />
         <activity android:name=".Activity.CrearServicio" />
         <activity android:name=".Activity.Servicios" />
         <activity android:name=".Activity.Chat" />

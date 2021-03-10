@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="20sp"
-            android:text="Xats"
+            android:text="Reportar Usuaris"
             android:textStyle="bold"
             app:backgroundTint="#FF7A22"
             app:layout_constraintBottom_toBottomOf="parent"
