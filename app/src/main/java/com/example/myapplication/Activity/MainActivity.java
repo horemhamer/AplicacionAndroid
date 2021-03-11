@@ -18,7 +18,6 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.myapplication.Entidades.BaseDatos.DataBase;
-import com.example.myapplication.Entidades.Usuario.Usuario;
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database;
     TextInputLayout textInputLayout;
     Preferencias preferencias = new Preferencias();
-    Usuario usuario =  new Usuario();
+     String s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         textInputLayout = findViewById(R.id.textInputLayout);
         database = FirebaseDatabase.getInstance("https://benku-4adaa-default-rtdb.firebaseio.com/");
         preferencias.cargarPreferencias(this);
-        usuario.setCorreo("asdasd");
+
 
         mostrarIcono();
 
@@ -140,11 +139,16 @@ public class MainActivity extends AppCompatActivity {
                     nemail = rs.getString("correu");
                     npassword = rs.getString("contrasenya");
                     if(correo.getText().toString().trim().equals(nemail) && contrasenya.getText().toString().trim().equals(npassword)){
+                        s = correo.getText().toString();
                        preferencias.setLogueado(true);
+                         preferencias.setCorreo(s);
                         preferencias.guardarPreferencia(this);
+
                         Toast.makeText(getApplicationContext(),"hola",Toast.LENGTH_SHORT).show();
                         Intent intent2 = new Intent(MainActivity.this, Menu.class);
-                        intent2.putExtra("EditTextValue",correo.getText().toString());
+                      //  s = correo.getText().toString();
+
+                        intent2.putExtra("EditTextValue",s);
                         startActivity(intent2);
                     }else{
                       preferencias.setLogueado(false);

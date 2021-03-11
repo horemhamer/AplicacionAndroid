@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.example.myapplication.Entidades.BaseDatos.DataBase;
 import com.example.myapplication.Entidades.Logica.LMensaje;
-import com.example.myapplication.Entidades.Usuario.Usuario;
 import com.example.myapplication.HolderServicio;
 import com.example.myapplication.R;
 
@@ -33,18 +32,25 @@ public class Servicios extends AppCompatActivity {
     List <InfoServicio>listaObjeto = new ArrayList<>();
     DataBase dataBase = new DataBase();
     Drawable image;
-    Usuario usuario = new Usuario();
+    Bundle extras;
+    String correo;
+    boolean comprobaremail;
+    Preferencias preferencias = new Preferencias();
     ArrayList<String>listcorreo = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_servicios);
-        lServicios = findViewById(R.id.lServicios);
+ lServicios = findViewById(R.id.lServicios);
        adaptador = new AdaptadorServicios(this, R.layout.servicios_view,Lista());
       lServicios.setAdapter(adaptador);
-      usuario.setCorreo("asdsad");
+      extras =  getIntent().getExtras();
+     preferencias.cargarPreferencias(this);
+     correo = preferencias.getCorreo();
   //   setContentView(lServicios);
-        Toast.makeText(getApplicationContext(),usuario.getCorreo(),Toast.LENGTH_SHORT).show();
+     String string = String.valueOf(getEmail());
+
+    Toast.makeText(getApplicationContext(),string,Toast.LENGTH_SHORT).show();
     }
 
 
@@ -54,7 +60,7 @@ public class Servicios extends AppCompatActivity {
     protected List<InfoServicio> Lista(){
         byte[] bytes;
 
-        if(!getEmail().contains(usuario.getCorreo())){
+        if(!getEmail()){
             try{
 
                 Statement st=dataBase.conexionBD().createStatement();
@@ -81,20 +87,28 @@ public class Servicios extends AppCompatActivity {
     }
 
 
-    protected List<String> getEmail(){
+    protected boolean  getEmail(){
+        String s = "";
         try{
             Statement st=conexionBD.conexionBD().createStatement();
-            ResultSet rs= st.executeQuery("select*  from Usuari where tipus_usuari='Final'");
+            ResultSet rs= st.executeQuery("select * from Usuari where tipus_usuari = 'Final' and correu ='"+correo.trim()+"'");
 
             while(rs.next()){
-                listcorreo.add(rs.getString("correu"));
+
+                s = rs.getString("correu");
             }
 
         }catch(Exception e){
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
 
-        return listcorreo;
+        if(correo == s){
+            comprobaremail = true;
+        }else{
+            comprobaremail = false;
+        }
+
+        return comprobaremail;
     }
 
 

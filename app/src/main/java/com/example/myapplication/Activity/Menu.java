@@ -22,7 +22,8 @@ public class Menu extends AppCompatActivity {
     Button logout, bustia, verservicio, cambiar, crearservicio;
     Preferencias preferencias = new Preferencias();
     Context c;
-
+    Bundle extras;
+    String correo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,12 @@ public class Menu extends AppCompatActivity {
         verservicio = findViewById(R.id.btnVerServicios);
         cambiar = findViewById(R.id.btnCambiar);
         crearservicio = findViewById(R.id.btnCrearServicio);
+        extras =  getIntent().getExtras();
+        if(extras!=null){
+            correo = extras.getString("EditTextValue");
+        }
+
+
         c = this;
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +70,7 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Menu.this, Servicios.class);
+                intent.putExtra("EditTextValue2",correo);
                 startActivity(intent);
             }
         });
