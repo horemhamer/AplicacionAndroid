@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.Entidades.BaseDatos.DataBase;
 import com.example.myapplication.Entidades.Logica.LMensaje;
+import com.example.myapplication.Entidades.Usuario.Usuario;
 import com.example.myapplication.HolderServicio;
 import com.example.myapplication.R;
 
@@ -26,13 +27,14 @@ import java.util.Base64;
 import java.util.List;
 
 public class Servicios extends AppCompatActivity {
-
+    private DataBase conexionBD = new DataBase();
     ListView lServicios;
    AdaptadorServicios adaptador;
     List <InfoServicio>listaObjeto = new ArrayList<>();
     DataBase dataBase = new DataBase();
     Drawable image;
-
+    Usuario usuario = new Usuario();
+    ArrayList<String>listcorreo = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +42,9 @@ public class Servicios extends AppCompatActivity {
         lServicios = findViewById(R.id.lServicios);
        adaptador = new AdaptadorServicios(this, R.layout.servicios_view,Lista());
       lServicios.setAdapter(adaptador);
-        Toast.makeText(getApplicationContext(), listaObjeto.toString(), Toast.LENGTH_SHORT).show();
+      usuario.setCorreo("asdsad");
   //   setContentView(lServicios);
+        Toast.makeText(getApplicationContext(),usuario.getCorreo(),Toast.LENGTH_SHORT).show();
     }
 
 
@@ -50,30 +53,49 @@ public class Servicios extends AppCompatActivity {
 
     protected List<InfoServicio> Lista(){
         byte[] bytes;
-        try{
-            Statement st=dataBase.conexionBD().createStatement();
-            ResultSet rs= st.executeQuery("select* from Serveis  ");
-            String nusuari = "";
-            String npassword = "";
-            while(rs.next()){
-                bytes = rs.getBytes("imatge_servei");
-               image = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(bytes,0,bytes.length));
-                try{
-              listaObjeto.add(new InfoServicio("",rs.getString("titol"),rs.getString("descripcio"),"", image));
-                    //listaObjeto.add(new InfoServicio("a","e","a","e","e"));
 
-                }catch(Exception e){
-                    e.printStackTrace();
+        if(!getEmail().contains(usuario.getCorreo())){
+            try{
+
+                Statement st=dataBase.conexionBD().createStatement();
+                ResultSet rs= st.executeQuery("select* from Serveis  ");
+                while(rs.next()){
+                    bytes = rs.getBytes("imatge_servei");
+                    image = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(bytes,0,bytes.length));
+                    try{
+                        listaObjeto.add(new InfoServicio("",rs.getString("titol"),rs.getString("descripcio"),"", image));
+                        //listaObjeto.add(new InfoServicio("a","e","a","e","e"));
+
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+
                 }
+            }catch (Exception e){
 
             }
-        }catch (Exception e){
-
         }
+
 
         return listaObjeto;
     }
 
+
+    protected List<String> getEmail(){
+        try{
+            Statement st=conexionBD.conexionBD().createStatement();
+            ResultSet rs= st.executeQuery("select*  from Usuari where tipus_usuari='Final'");
+
+            while(rs.next()){
+                listcorreo.add(rs.getString("correu"));
+            }
+
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+
+        return listcorreo;
+    }
 
 
 

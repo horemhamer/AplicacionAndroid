@@ -18,6 +18,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.myapplication.Entidades.BaseDatos.DataBase;
+import com.example.myapplication.Entidades.Usuario.Usuario;
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database;
     TextInputLayout textInputLayout;
     Preferencias preferencias = new Preferencias();
+    Usuario usuario =  new Usuario();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         textInputLayout = findViewById(R.id.textInputLayout);
         database = FirebaseDatabase.getInstance("https://benku-4adaa-default-rtdb.firebaseio.com/");
         preferencias.cargarPreferencias(this);
+        usuario.setCorreo("asdasd");
+
         mostrarIcono();
 
         botologin.setOnClickListener(new View.OnClickListener() {
@@ -94,30 +98,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-  /*  protected void iniciarSesionFirebase(){
-        String email = correo.getText().toString();
-        String password = contrasenya.getText().toString();
-        if(validarFormulario()){
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                autoActivity();
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(MainActivity.this, "Credencials incorrectes", Toast.LENGTH_SHORT).show();
-                                // ...
-                            }
-                        }
-                    });
-        }
-
-
-    }*/
-
 
 
 
@@ -179,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
 }

@@ -3,9 +3,12 @@ package com.example.myapplication.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.myapplication.Entidades.Usuario.Usuario;
+
 public class Preferencias {
 
     boolean logueado;
+    Usuario usuario = new Usuario();
 
     public Preferencias() {
     }
@@ -20,6 +23,7 @@ public class Preferencias {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("login",getLogueado());
         setLogueado(getLogueado());
+
         editor.commit();
     }
 

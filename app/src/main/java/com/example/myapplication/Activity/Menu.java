@@ -19,9 +19,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Menu extends AppCompatActivity {
     DataBase conexionBD = new DataBase();
     CircleImageView imagemuestra;
-    Button logout, bustia, verservicio, cambiar;
+    Button logout, bustia, verservicio, cambiar, crearservicio;
     Preferencias preferencias = new Preferencias();
     Context c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,7 @@ public class Menu extends AppCompatActivity {
         bustia = findViewById(R.id.btnBustia);
         verservicio = findViewById(R.id.btnVerServicios);
         cambiar = findViewById(R.id.btnCambiar);
+        crearservicio = findViewById(R.id.btnCrearServicio);
         c = this;
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +71,14 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Menu.this, Cambiardatos.class);
+                startActivity(intent);
+            }
+        });
+
+        crearservicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Menu.this, CrearServicio.class);
                 startActivity(intent);
             }
         });

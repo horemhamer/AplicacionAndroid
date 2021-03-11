@@ -210,7 +210,7 @@ public class Registre extends AppCompatActivity {
             if(validarFormulario()&&otrasValidaciones()){
                 st.executeUpdate();
                 Toast.makeText(getApplicationContext(),"Registro agregado correctamente",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Registre.this, CrearServicio.class);
+                Intent intent = new Intent(Registre.this, Menu.class);
                 startActivity(intent);
             }
 
