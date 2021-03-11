@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -19,50 +22,46 @@ import com.example.myapplication.R;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 
 public class Servicios extends AppCompatActivity {
 
     ListView lServicios;
    AdaptadorServicios adaptador;
-    private Context c;
-    ArrayList<InfoServicio>listaObjeto = new ArrayList<>();
+    List <InfoServicio>listaObjeto = new ArrayList<>();
     DataBase dataBase = new DataBase();
+    Drawable image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_servicios);
         lServicios = findViewById(R.id.lServicios);
-        listaObjeto = new ArrayList<InfoServicio>();
-        Lista();
-       adaptador = new AdaptadorServicios(this, getListaObjeto());
+       adaptador = new AdaptadorServicios(this, R.layout.servicios_view,Lista());
       lServicios.setAdapter(adaptador);
+        Toast.makeText(getApplicationContext(), listaObjeto.toString(), Toast.LENGTH_SHORT).show();
+  //   setContentView(lServicios);
     }
 
 
-    public Context getC() {
-        return c;
-    }
 
 
 
-    protected void Lista(){
-        int i =0;
+    protected List<InfoServicio> Lista(){
+        byte[] bytes;
         try{
             Statement st=dataBase.conexionBD().createStatement();
-            ResultSet rs= st.executeQuery("select* from Usuari,Serveis where tipus_usuari='Final' AND id_usuari=id_servei");
+            ResultSet rs= st.executeQuery("select* from Serveis  ");
             String nusuari = "";
             String npassword = "";
             while(rs.next()){
-                i++;
-                      /*  nusuari = rs.getString("usuari");
-                npassword = rs.getString("password");*/
+                bytes = rs.getBytes("imatge_servei");
+               image = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(bytes,0,bytes.length));
                 try{
-                  listaObjeto.add(new InfoServicio(rs.getString("usuari"),rs.getString("titol"),rs.getString("descripcio"),rs.getString("imatge"),rs.getString("imatge_servei")));
+              listaObjeto.add(new InfoServicio("",rs.getString("titol"),rs.getString("descripcio"),"", image));
+                    //listaObjeto.add(new InfoServicio("a","e","a","e","e"));
 
-                    lServicios.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
-                    adaptador.list.get(i);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -72,14 +71,10 @@ public class Servicios extends AppCompatActivity {
 
         }
 
-    }
-
-
-    public ArrayList<InfoServicio> getListaObjeto() {
         return listaObjeto;
     }
 
-    public void setListaObjeto(ArrayList<InfoServicio> listaObjeto) {
-        this.listaObjeto = listaObjeto;
-    }
+
+
+
 }

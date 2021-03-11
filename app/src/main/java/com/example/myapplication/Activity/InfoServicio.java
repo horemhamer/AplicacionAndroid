@@ -1,17 +1,18 @@
 package com.example.myapplication.Activity;
 
-import android.widget.Button;
+import android.graphics.drawable.Drawable;
 
 public class InfoServicio {
     String nombreuser;
     String servicio;
     String descripcion;
     String imgperfil;
-    String imgserv;
+    Drawable imgserv;
+
     public InfoServicio() {
     }
 
-    public InfoServicio(String nombreuser, String servicio, String descripcion, String imgperfil, String imgserv) {
+    public InfoServicio(String nombreuser, String servicio, String descripcion, String imgperfil, Drawable imgserv) {
         this.nombreuser = nombreuser;
         this.servicio = servicio;
         this.descripcion = descripcion;
@@ -51,11 +52,11 @@ public class InfoServicio {
         this.imgperfil = imgperfil;
     }
 
-    public String getImgserv() {
+    public Drawable getImgserv() {
         return imgserv;
     }
 
-    public void setImgserv(String imgserv) {
+    public void setImgserv(Drawable imgserv) {
         this.imgserv = imgserv;
     }
 }
