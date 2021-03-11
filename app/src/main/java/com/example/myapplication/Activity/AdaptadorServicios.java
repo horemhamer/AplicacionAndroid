@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/*public class AdaptadorServicios  extends BaseAdapter{
+public class AdaptadorServicios  extends BaseAdapter{
 
     public ArrayList<InfoServicio>list;
     private Context c;
@@ -94,7 +94,7 @@ import java.util.List;
         return null;
     }
 }
-*/
+
 
 /*
 public class AdaptadorServicios extends RecyclerView.Adapter<HolderServicio> {

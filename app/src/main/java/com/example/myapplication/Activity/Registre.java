@@ -39,6 +39,8 @@ import java.io.ByteArrayOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -56,6 +58,9 @@ public class Registre extends AppCompatActivity {
     DatabaseReference imgref;
     StorageReference storageReference;
     FirebaseDatabase database;
+    ArrayList<String>listusuario = new ArrayList<>();
+    ArrayList<String>listcorreo = new ArrayList<>();
+    boolean validar2;
     String usuariodb, emaildb;
    // AdaptadorServicios adaptadorServicios;
     Servicios servicios;
@@ -81,16 +86,10 @@ public class Registre extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance("https://benku-4adaa-default-rtdb.firebaseio.com/");
 
-
-
-
-
            confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(getApplicationContext(),getEmailBD(),Toast.LENGTH_SHORT).show();
-           guardarUsuarios();
-           //  usuarioFirebase();
+                guardarUsuarios();
 
             }
         });
@@ -148,59 +147,29 @@ public class Registre extends AppCompatActivity {
             validation.addValidation(this,R.id.editConfirmaContra, R.id.editContra,R.string.invalid_confirmpassword);
         }
 
-
-            if(nusuari.getText().toString().trim().equals(getUsuarioBD())&&correo.getText().toString().trim().equals(getEmailBD())) {
-            Toast.makeText(getApplicationContext(), "El usuari i el correu ja existeixen", Toast.LENGTH_SHORT).show();
-            }else if(nusuari.getText().toString().trim().equals(getUsuarioBD())){
-            Toast.makeText(getApplicationContext(),"El usuari ja existeix",Toast.LENGTH_SHORT).show();
-            }else   if(correo.getText().toString().trim().equals(getEmailBD())) {
-            Toast.makeText(getApplicationContext(), "El correu electrònic ja se està utilitzant", Toast.LENGTH_SHORT).show();
-            }
-
         return validation.validate();
     }
 
+    protected boolean otrasValidaciones(){
 
-
-    protected void usuarioFirebase(){
-        String email = correo.getText().toString();
-        String password = contra.getText().toString();
-        if(validarFormulario()){
-            subirImagenFirebase();
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Toast.makeText(getApplicationContext(),"Se guardo en firebase",Toast.LENGTH_SHORT).show();
-                                Usuario usuario = new Usuario();
-                                usuario.setCorreo(correo.getText().toString());
-                                usuario.setNombre(nusuari.getText().toString());
-                                usuario.setFotoPerfilURL(getImageUri().toString());
-                                FirebaseUser currentUser = mAuth.getCurrentUser();
-                                DatabaseReference reference = database.getReference("Usuaris/"+currentUser.getUid());
-                                reference.setValue(usuario);
-                            } else {
-
-                            }
-
-                        }
-                    });
+        if(getNombreUsuario().contains(nusuari.getText().toString())&&getEmail().contains(correo.getText().toString())) {
+            validar2= false;
+            Toast.makeText(getApplicationContext(), "El usuari i el correu ja existeixen", Toast.LENGTH_SHORT).show();
+        }else if(getNombreUsuario().contains(nusuari.getText().toString())){
+            validar2= false;
+            Toast.makeText(getApplicationContext(),"El usuari ja existeix",Toast.LENGTH_SHORT).show();
+        }else   if(getEmail().contains(correo.getText().toString())) {
+            validar2= false;
+            Toast.makeText(getApplicationContext(), "El correu electrònic ja se està utilitzant", Toast.LENGTH_SHORT).show();
+        }else{
+            validar2=true;
         }
 
+        return validar2;
     }
 
 
-    protected void subirImagenFirebase(){
-        StorageReference filePath = storageReference.child("fotos").child(getImageUri().getPathSegments().toString());
-        filePath.putFile(getImageUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(getApplicationContext(),"imagen subida",Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+
 
     protected void setImagenUri(Uri imgUri){
      this.imageUri = imgUri;
@@ -237,16 +206,13 @@ public class Registre extends AppCompatActivity {
             st.setInt(5, intedad);
             st.setString(6, localizacion.getText().toString());
             st.setBytes(7, bytes);
-
-            if(validarFormulario()&&!nusuari.getText().toString().trim().equals(getUsuarioBD())&&!correo.getText().toString().trim().equals(getEmailBD())){
+            otrasValidaciones();
+            if(validarFormulario()&&otrasValidaciones()){
                 st.executeUpdate();
                 Toast.makeText(getApplicationContext(),"Registro agregado correctamente",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Registre.this, CrearServicio.class);
                 startActivity(intent);
             }
-
-
-
 
         }catch (Exception e){
 
@@ -257,38 +223,43 @@ public class Registre extends AppCompatActivity {
 
 
 
-    protected String getUsuarioBD(){
+
+
+    protected List<String> getNombreUsuario(){
         try{
             Statement st=conexionBD.conexionBD().createStatement();
-            ResultSet rs= st.executeQuery("select* from Usuari where tipus_usuari='Final'");
+            ResultSet rs= st.executeQuery("select*  from Usuari where tipus_usuari='Final'");
 
             while(rs.next()){
-                usuariodb = rs.getString("usuari");
+                listusuario.add(rs.getString("usuari"));
             }
 
         }catch(Exception e){
-            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
 
-        return usuariodb;
+        return listusuario;
     }
 
 
-    protected String getEmailBD(){
+    protected List<String> getEmail(){
         try{
             Statement st=conexionBD.conexionBD().createStatement();
-            ResultSet rs= st.executeQuery("select* from Usuari where tipus_usuari='Final'");
+            ResultSet rs= st.executeQuery("select*  from Usuari where tipus_usuari='Final'");
 
             while(rs.next()){
-                emaildb = rs.getString("correu");
+                listcorreo.add(rs.getString("correu"));
             }
 
         }catch(Exception e){
-            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
 
-        return emaildb;
+        return listcorreo;
     }
+
+
+
 
 
 

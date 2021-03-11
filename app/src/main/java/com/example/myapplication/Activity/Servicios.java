@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class Servicios extends AppCompatActivity {
 
     ListView lServicios;
-    //AdaptadorServicios adaptador;
+   AdaptadorServicios adaptador;
     private Context c;
     ArrayList<InfoServicio>listaObjeto = new ArrayList<>();
     DataBase dataBase = new DataBase();
@@ -35,8 +35,8 @@ public class Servicios extends AppCompatActivity {
         lServicios = findViewById(R.id.lServicios);
         listaObjeto = new ArrayList<InfoServicio>();
         Lista();
-      //  adaptador = new AdaptadorServicios(this, getListaObjeto());
-      //  lServicios.setAdapter(adaptador);
+       adaptador = new AdaptadorServicios(this, getListaObjeto());
+      lServicios.setAdapter(adaptador);
     }
 
 
@@ -58,11 +58,11 @@ public class Servicios extends AppCompatActivity {
                       /*  nusuari = rs.getString("usuari");
                 npassword = rs.getString("password");*/
                 try{
-                  listaObjeto.add(new InfoServicio(rs.getString("usuari"),rs.getString("titol"),rs.getString("descipcio"),rs.getString("imatge"),rs.getString("imatge_servei")));
+                  listaObjeto.add(new InfoServicio(rs.getString("usuari"),rs.getString("titol"),rs.getString("descripcio"),rs.getString("imatge"),rs.getString("imatge_servei")));
 
                     lServicios.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-                  //  adaptador.list.get(i);
+                    adaptador.list.get(i);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
