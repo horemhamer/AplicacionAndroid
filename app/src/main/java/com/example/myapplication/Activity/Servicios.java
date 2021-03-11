@@ -104,7 +104,8 @@ public class Servicios extends AppCompatActivity {
 
 
         Toast.makeText(getApplicationContext(),correo,Toast.LENGTH_SHORT).show();
-        if(correo.equals(s)){
+
+          if(correo.equals(s)){
             comprobaremail = true;
         }else{
             comprobaremail = false;
