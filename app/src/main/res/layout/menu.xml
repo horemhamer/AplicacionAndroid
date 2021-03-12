@@ -7,11 +7,14 @@
     android:background="@drawable/fondoandroid"
     tools:context=".Activity.Menu">
 
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:paddingBottom="50sp"
         tools:layout_editor_absoluteX="7dp"
         tools:layout_editor_absoluteY="7dp"
        >
@@ -92,6 +95,7 @@
             android:text="tancar la sessió"
             android:textStyle="bold"
             app:backgroundTint="#FF7A22"
+
             android:layout_gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -102,5 +106,6 @@
 
 
     </LinearLayout>
+</ScrollView>
 
 </LinearLayout>

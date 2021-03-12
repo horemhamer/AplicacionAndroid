@@ -36,21 +36,21 @@ public class Servicios extends AppCompatActivity {
     String correo;
     boolean comprobaremail;
     Preferencias preferencias = new Preferencias();
-    ArrayList<String>listcorreo = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_servicios);
+        preferencias.cargarPreferencias(this);
+        correo = preferencias.getCorreo();
  lServicios = findViewById(R.id.lServicios);
        adaptador = new AdaptadorServicios(this, R.layout.servicios_view,Lista());
       lServicios.setAdapter(adaptador);
       extras =  getIntent().getExtras();
-     preferencias.cargarPreferencias(this);
-     correo = preferencias.getCorreo();
-  //   setContentView(lServicios);
-     String string = String.valueOf(getEmail());
 
-    Toast.makeText(getApplicationContext(),string,Toast.LENGTH_SHORT).show();
+  //   setContentView(lServicios);
+
+
+
     }
 
 
