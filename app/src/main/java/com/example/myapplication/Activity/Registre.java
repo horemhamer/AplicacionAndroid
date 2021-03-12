@@ -54,7 +54,7 @@ public class Registre extends AppCompatActivity {
     private EditText nusuari,contra,confirmcontra,correo, edad, especialidad, localizacion, desc;
     private int intedad = 0;
     ImageView imagenservei;
-    boolean validar2, validarnombre, validarcorreo;
+    boolean validar2, validarnombre, validarcorreo, validarimagen;
     Servicios servicios;
 
 
@@ -108,6 +108,7 @@ public class Registre extends AppCompatActivity {
             imageUri = data.getData();
             setImagenUri(imageUri);
             ProfileImage.setImageURI(imageUri);
+            setValidarimagen(true);
 
         }
     }
@@ -151,6 +152,9 @@ public class Registre extends AppCompatActivity {
         }else   if(getEmail()) {
             validar2= false;
             Toast.makeText(getApplicationContext(), "El correu electrònic ja se està utilitzant", Toast.LENGTH_SHORT).show();
+        }else if(!getValidarimagen()){
+            validar2= false;
+            Toast.makeText(getApplicationContext(), "Fica una foto de perfil", Toast.LENGTH_SHORT).show();
         }else{
             validar2=true;
         }
@@ -201,7 +205,7 @@ public class Registre extends AppCompatActivity {
                 st.executeUpdate();
                 Toast.makeText(getApplicationContext(),"Registro agregado correctamente",Toast.LENGTH_SHORT).show();
                 st.close();
-                Intent intent = new Intent(Registre.this, Menu.class);
+                Intent intent = new Intent(Registre.this, MainActivity.class);
                 startActivity(intent);
             }
 
@@ -251,12 +255,11 @@ public class Registre extends AppCompatActivity {
     }
 
 
+    public boolean getValidarimagen() {
+        return validarimagen;
+    }
 
-
-
-
-
-
-
-
+    public void setValidarimagen(boolean validarimagen) {
+        this.validarimagen = validarimagen;
+    }
 }

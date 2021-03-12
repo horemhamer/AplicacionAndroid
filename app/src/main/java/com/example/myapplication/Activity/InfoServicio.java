@@ -6,13 +6,13 @@ public class InfoServicio {
     String nombreuser;
     String servicio;
     String descripcion;
-    String imgperfil;
+    Drawable imgperfil;
     Drawable imgserv;
 
     public InfoServicio() {
     }
 
-    public InfoServicio(String nombreuser, String servicio, String descripcion, String imgperfil, Drawable imgserv) {
+    public InfoServicio(String nombreuser, String servicio, String descripcion, Drawable imgperfil, Drawable imgserv) {
         this.nombreuser = nombreuser;
         this.servicio = servicio;
         this.descripcion = descripcion;
@@ -44,11 +44,11 @@ public class InfoServicio {
         this.descripcion = descripcion;
     }
 
-    public String getImgperfil() {
+    public Drawable getImgperfil() {
         return imgperfil;
     }
 
-    public void setImgperfil(String imgperfil) {
+    public void setImgperfil(Drawable imgperfil) {
         this.imgperfil = imgperfil;
     }
 

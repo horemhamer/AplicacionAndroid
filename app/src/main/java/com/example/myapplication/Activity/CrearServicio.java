@@ -33,8 +33,10 @@ public class CrearServicio extends AppCompatActivity {
     EditText especialidad,desc;
     private AwesomeValidation validation;
     Button btnservei;
+    Preferencias preferencias = new Preferencias();
     protected boolean imageselect;
     private int idusuario;
+    String correo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,8 @@ public class CrearServicio extends AppCompatActivity {
         especialidad = findViewById(R.id.editServei);
         desc = findViewById(R.id.editDescripcion);
         btnservei = findViewById(R.id.btnServicio);
+        preferencias.cargarPreferencias(this);
+        correo = preferencias.getCorreo();
         imagenservei.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,9 +130,9 @@ public class CrearServicio extends AppCompatActivity {
     protected int getIDUsuario(){
         try{
             Statement st=conexionBD.conexionBD().createStatement();
-            ResultSet rs= st.executeQuery("select* from Usuari where tipus_usuari='Final'");
+            ResultSet rs= st.executeQuery("select* from Usuari where tipus_usuari='Final' and correu='"+correo+"'");
 
-            while(rs.next()){
+            if(rs.next()){
                 idusuario = rs.getInt("id_usuari");
             }
 

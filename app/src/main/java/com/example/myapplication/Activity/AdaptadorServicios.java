@@ -62,7 +62,7 @@ public class AdaptadorServicios  extends ArrayAdapter<InfoServicio>{
             TextView textView3 =  view.findViewById(R.id.desc);
             textView3.setText(infoServicio.getDescripcion());
         CircleImageView circleImageView = view.findViewById(R.id.imgPerfilServ);
-        circleImageView.setImageResource(0);
+        circleImageView.setImageDrawable(infoServicio.getImgperfil());
         ImageView imageView =  view.findViewById(R.id.imgServ);
         imageView.setImageDrawable(infoServicio.getImgserv());
 

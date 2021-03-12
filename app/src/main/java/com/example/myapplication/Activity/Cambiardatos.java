@@ -1,11 +1,13 @@
 
 package com.example.myapplication.Activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -26,6 +28,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Cambiardatos extends AppCompatActivity {
 
     EditText nombre, correo, edad, contraseña, localizacion;
@@ -34,6 +38,10 @@ public class Cambiardatos extends AppCompatActivity {
     private AwesomeValidation validation;
     private int intedad = 0;
     private String cnombre, ccorreo, cpass, cedad, cprovincia;
+    CircleImageView imagenperfil;
+    private  Uri imageUri;
+    private static final int PICK_IMAGE = 1;
+    boolean validarimagen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +52,20 @@ public class Cambiardatos extends AppCompatActivity {
         contraseña = findViewById(R.id.editMContra);
         confirmar = findViewById(R.id.btnMConfirmar);
         localizacion = findViewById(R.id.editMLocation);
+        imagenperfil = findViewById(R.id.Mprofile_image);
         validation = new AwesomeValidation(ValidationStyle.BASIC);
+
+        imagenperfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Link guardar imatge base de dades:
+                https://stackoverflow.com/questions/25821141/image-storing-in-sql-server-database-using-java*/
+                Intent gallery = new Intent();
+                gallery.setType("image/*");
+                gallery.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(gallery, "Selecciona una imatge"), PICK_IMAGE);
+            }
+        });
 
         confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +74,21 @@ public class Cambiardatos extends AppCompatActivity {
             }
         });
 
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            setImagenUri(imageUri);
+            imagenperfil.setImageURI(imageUri);
+            setValidarimagen(true);
+
+        }
     }
 
 
@@ -201,6 +237,9 @@ public class Cambiardatos extends AppCompatActivity {
     }
 
 
+
+    protected void guardarImagen(){}
+
     protected void guardarNombre(){
         try{
 
@@ -258,5 +297,22 @@ public class Cambiardatos extends AppCompatActivity {
 
     public String getEdad() {
         return cedad = edad.getText().toString();
+    }
+
+
+    protected void setImagenUri(Uri imgUri){
+        this.imageUri = imgUri;
+    }
+
+    protected Uri getImageUri(){
+        return imageUri;
+    }
+
+    public boolean getValidarimagen() {
+        return validarimagen;
+    }
+
+    public void setValidarimagen(boolean validarimagen) {
+        this.validarimagen = validarimagen;
     }
 }
