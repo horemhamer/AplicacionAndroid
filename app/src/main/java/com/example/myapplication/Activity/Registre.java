@@ -20,6 +20,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.myapplication.Entidades.BaseDatos.DataBase;
+import com.example.myapplication.Entidades.BaseDatos.Usuarios;
 import com.example.myapplication.Entidades.Firebase.Usuario;
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -56,12 +57,13 @@ public class Registre extends AppCompatActivity {
     ImageView imagenservei;
     boolean validar2, validarnombre, validarcorreo, validarimagen;
     Servicios servicios;
-
+    Usuarios usuarios = new Usuarios();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registre);
+        usuarios = new Usuarios();
         imagenservei = findViewById(R.id.ImagenServicio);
         confirmar = (Button) findViewById(R.id.btnConfirmar);
         ProfileImage = (CircleImageView) findViewById(R.id.profile_image);
@@ -80,6 +82,7 @@ public class Registre extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 guardarUsuarios();
+
 
             }
         });
@@ -219,7 +222,10 @@ public class Registre extends AppCompatActivity {
 
 
     protected boolean getNombreUsuario() {
-        try {
+
+
+
+      /*  try {
             Statement st = conexionBD.conexionBD().createStatement();
             ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and usuari ='" + nusuari.getText().toString().trim() + "'");
 
@@ -231,7 +237,10 @@ public class Registre extends AppCompatActivity {
 
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+        }*/
+
+
+
 
         return validarnombre;
     }

@@ -4,6 +4,7 @@ package com.example.myapplication.Activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -40,8 +41,13 @@ public class Cambiardatos extends AppCompatActivity {
     private String cnombre, ccorreo, cpass, cedad, cprovincia;
     CircleImageView imagenperfil;
     private  Uri imageUri;
+    Context c;
     private static final int PICK_IMAGE = 1;
     boolean validarimagen;
+    String correoguardado = "";
+    int idusuario;
+    boolean click;
+    Preferencias preferencias = new Preferencias();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +59,14 @@ public class Cambiardatos extends AppCompatActivity {
         confirmar = findViewById(R.id.btnMConfirmar);
         localizacion = findViewById(R.id.editMLocation);
         imagenperfil = findViewById(R.id.Mprofile_image);
+        c = this;
+
+        preferencias.cargarPreferencias(c);
+
+
+
+
+
         validation = new AwesomeValidation(ValidationStyle.BASIC);
 
         imagenperfil.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +85,16 @@ public class Cambiardatos extends AppCompatActivity {
             @Override
             public void onClick(View view) {
              guardarCambios();
+                preferencias.setCambiarcorreo(getEmail2());
+                preferencias.guardarPreferencia(c);
+                if(correo.getText().toString().equals("")){
+                    correoguardado = getEmail2();
+                }else{
+                    correoguardado = correo.getText().toString();
+                }
+
+                Toast.makeText(getApplicationContext(),correoguardado,Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -97,67 +121,49 @@ public class Cambiardatos extends AppCompatActivity {
 
     protected void guardarCambios(){
 
-    boolean mensaje = false;
-    boolean mensaje2=  false;
-
-  /* BitmapDrawable bitmapDrawable = (BitmapDrawable) ProfileImage.getDrawable();
-        Bitmap bitmap = bitmapDrawable.getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);*/
-
-      //  byte[] bytes = baos.toByteArray();
-
-
-        if(!getNombre().equals("")&&validarNombre()){
-            guardarNombre();
-            mensaje = true;
-        }
+    boolean mensaje[] = new boolean[6];
+        boolean mensaje2[] = new boolean[6];
 
         if(!getNombre().equals("")){
-            mensaje2 = true;
+            guardarNombre();
+            mensaje[0] = true;
         }
 
-        if(!getPass().equals("")&& validarPass()){
-            guardarPass();
-            mensaje = true;
-        }
+
+
         if(!getPass().equals("")){
-            mensaje2 = true;
+            guardarPass();
+            mensaje[1] = true;
         }
 
-        if(!getEmail().equals("")&&validarEmail()){
+
+        if(!getEmail().equals("")){
             guardarEmail();
-            mensaje = true;
+            mensaje[2] = true;
         }
 
-        if(!validarEmail()){
-            mensaje2 = true;
-        }
 
-        if(!getEdad().equals("")&&validarEdad()){
-            guardarEdad();
-            mensaje = true;
-        }
         if(!getEdad().equals("")){
-            mensaje2 = true;
+            guardarEdad();
+            mensaje[3] = true;
         }
 
-        if(!getProvincia().equals("")&&validarLocaltion()){
-            guardarLocation();
-            mensaje = true;
-        }
+
         if(!getProvincia().equals("")){
-            mensaje2 = true;
+            guardarLocation();
+            mensaje[4] = true;
+        }
+
+           if(getValidarimagen()){
+            mensaje[5] = true;
         }
 
 
 
-        if(mensaje == true){
+
+        if( mensaje[0] == true|| mensaje[1] == true|| mensaje[2] == true|| mensaje[3] ==true|| mensaje[4] == true ||  mensaje[5] == true){
             Toast.makeText(getApplicationContext(),"Els canvis s'han efectuat correctament",Toast.LENGTH_SHORT).show();
-        }else if(mensaje2==true){
-
-        }
-        else{
+        }else{
             Toast.makeText(getApplicationContext(),"Omple un camp minim",Toast.LENGTH_SHORT).show();
         }
 
@@ -189,10 +195,12 @@ public class Cambiardatos extends AppCompatActivity {
         return  validation.validate();
     }
 
+
+
     protected void guardarLocation(){
         try{
 
-            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET localitzacio=? where tipus_usuari='Final'");
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET localitzacio=? where tipus_usuari='Final'and correu ='"+correoguardado+"'");
             st.setString(1,getProvincia());
             st.executeUpdate();
             st.close();
@@ -208,8 +216,9 @@ public class Cambiardatos extends AppCompatActivity {
 
     protected void guardarEmail(){
         try{
+       ;
 
-            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET correu=? where tipus_usuari='Final'");
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET correu=? where tipus_usuari='Final' and correu ='"+correoguardado+"' and correu !=' "+preferencias.getCambiarcorreo()+"'");
             st.setString(1,getEmail());
             st.executeUpdate();
             st.close();
@@ -219,12 +228,13 @@ public class Cambiardatos extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
+
     }
 
     protected void guardarPass(){
         try{
 
-            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET contrasenya=? where tipus_usuari='Final'");
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET contrasenya=? where tipus_usuari='Final'and correu ='"+correoguardado+"'");
             st.setString(1,getPass());
             st.executeUpdate();
             st.close();
@@ -237,13 +247,48 @@ public class Cambiardatos extends AppCompatActivity {
     }
 
 
+    protected int getIDUsuario(){
 
-    protected void guardarImagen(){}
+        try{
+            Statement st=conexionBD.conexionBD().createStatement();
+            ResultSet rs= st.executeQuery("select* from Usuari where tipus_usuari='Final' and correu=correu");
+
+            if(rs.next()){
+                idusuario = rs.getInt("id_usuari");
+            }
+
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+        }
+
+        return idusuario;
+    }
+
+    protected void guardarImagen(){
+          BitmapDrawable bitmapDrawable = (BitmapDrawable) imagenperfil.getDrawable();
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+     byte[] bytes = baos.toByteArray();
+        try{
+
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET imatge=? where tipus_usuari='Final'and correu ='"+correoguardado+"'");
+            st.setBytes(1,bytes);
+            st.executeUpdate();
+            st.close();
+
+
+        }catch (Exception e){
+
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     protected void guardarNombre(){
         try{
 
-            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET usuari=? where tipus_usuari='Final'");
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET usuari=? where tipus_usuari='Final'and correu ='"+correoguardado+"'");
             st.setString(1,getNombre());
             st.executeUpdate();
             st.close();
@@ -265,7 +310,7 @@ public class Cambiardatos extends AppCompatActivity {
 
         try{
 
-            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET edat=? where tipus_usuari='Final'");
+            PreparedStatement st=conexionBD.conexionBD().prepareStatement("UPDATE Usuari SET edat=? where tipus_usuari='Final'and correu ='"+correoguardado+"'");
             st.setInt(1, intedad);
             st.executeUpdate();
             st.close();
@@ -315,4 +360,23 @@ public class Cambiardatos extends AppCompatActivity {
     public void setValidarimagen(boolean validarimagen) {
         this.validarimagen = validarimagen;
     }
+
+    protected String getEmail2() {
+        String a = "";
+        try {
+            Statement st = conexionBD.conexionBD().createStatement();
+            ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and correu ='" + correoguardado + "'");
+
+            if (rs.next()) {
+                a = rs.getString("correu");
+            }
+
+
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        return a;
+    }
+
 }

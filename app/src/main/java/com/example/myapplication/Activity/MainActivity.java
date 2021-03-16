@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
                     if(correo.getText().toString().trim().equals(nemail) && contrasenya.getText().toString().trim().equals(npassword)){
                         s = correo.getText().toString();
                        preferencias.setLogueado(true);
+
                          preferencias.setCorreo(s);
                         preferencias.guardarPreferencia(this);
 

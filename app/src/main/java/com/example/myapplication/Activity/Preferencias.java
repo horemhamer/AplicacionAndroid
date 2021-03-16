@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 public class Preferencias {
 
     boolean logueado;
-    String correo;
+    String correo, cambiarcorreo;
 
     public Preferencias() {
     }
@@ -17,7 +17,9 @@ public class Preferencias {
         SharedPreferences sharedPreferences = c.getSharedPreferences("credenciales", Context.MODE_PRIVATE);
         boolean login = sharedPreferences.getBoolean("login", getLogueado());
         String e = sharedPreferences.getString("email",getCorreo());
+        String e2 =sharedPreferences.getString("email2",getCambiarcorreo());
         setCorreo(e);
+        setCambiarcorreo(e2);
         setLogueado(login);
     }
     protected void guardarPreferencia(Context c){
@@ -25,8 +27,10 @@ public class Preferencias {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("email",getCorreo());
         editor.putBoolean("login",getLogueado());
+        editor.putString("email2",getCorreo());
         setLogueado(getLogueado());
         setCorreo(getCorreo());
+        setCambiarcorreo(getCambiarcorreo());
         editor.commit();
     }
 
@@ -44,5 +48,13 @@ public class Preferencias {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public String getCambiarcorreo() {
+        return cambiarcorreo;
+    }
+
+    public void setCambiarcorreo(String cambiarcorreo) {
+        this.cambiarcorreo = cambiarcorreo;
     }
 }
