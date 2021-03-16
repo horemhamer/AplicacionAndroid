@@ -10,46 +10,62 @@ import java.sql.Statement;
 public class UsuariosBD extends DataBase {
     Usuarios usuarios;
 
-
-
+    String nombre;
+    String correo;
+    String rnombre;
+    String rcorreo;
     public UsuariosBD() {
         usuarios = new Usuarios();
     }
 
+    public String getNombre() {
+        return nombre;
+    }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
 
     public String getNombreUsuario() {
-        String rnombre = "a";
+
         try {
             Statement st = conexionBD().createStatement();
-            ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and usuari ='" + usuarios.getNombre()+ "'");
+            ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and usuari ='" + getNombre()+"'");
 
             if (rs.next()) {
-                rnombre = rs.getString("usuari");
+                this.rnombre = rs.getString("usuari");
             }
 
         } catch (Exception e) {
          //   Toast.makeText(, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        return rnombre;
+        return this.rnombre;
     }
 
     public String getEmail() {
-        String rcorreo = "";
+
         try {
             Statement st = conexionBD().createStatement();
-            ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and correu ='" +usuarios.getCorreo()+ "'");
+            ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and correu ='"+getCorreo()+"'");
 
             if (rs.next()) {
-               rcorreo = rs.getString("correu");
+               this.rcorreo = rs.getString("correu");
             }
 
         } catch (Exception e) {
          //   Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        return rcorreo;
+        return this.rcorreo;
     }
 
 }

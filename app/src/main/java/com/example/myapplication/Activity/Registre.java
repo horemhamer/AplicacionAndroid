@@ -68,11 +68,15 @@ public class Registre extends AppCompatActivity {
            confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //    guardarUsuarios();
 
-                usuarios.setNombre(nusuari.getText().toString());
 
-                    Toast.makeText(getApplicationContext(), usuariosBD.getNombreUsuario(), Toast.LENGTH_SHORT).show();
+                otrasValidaciones();
+                 guardarUsuarios();
+
+
+              //  Toast.makeText(getApplicationContext(), usuariosBD.getEmail(), Toast.LENGTH_SHORT).show();
+
+
 
 
 
@@ -144,7 +148,7 @@ public class Registre extends AppCompatActivity {
         }else if(getNombreUsuario()){
             validar2= false;
             Toast.makeText(getApplicationContext(),"El usuari ja existeix",Toast.LENGTH_SHORT).show();
-        }else   if(getEmail()) {
+        }else if(getEmail()) {
             validar2= false;
             Toast.makeText(getApplicationContext(), "El correu electrònic ja se està utilitzant", Toast.LENGTH_SHORT).show();
         }else if(!getValidarimagen()){
@@ -215,32 +219,31 @@ public class Registre extends AppCompatActivity {
 
     protected boolean getNombreUsuario() {
 
-
-
-        if(usuarios.getNombre().equals(usuariosBD.getNombreUsuario())){
-            validarnombre = true;
+        if(!nusuari.getText().toString().equals("")){
+            usuariosBD.setNombre(nusuari.getText().toString());
+            if(usuariosBD.getNombreUsuario().equals(nusuari.getText().toString())){
+                validarnombre = true;
+            }else{
+                validarnombre = false;
+            }
         }else{
             validarnombre = false;
         }
-
-
 
         return validarnombre;
     }
 
     protected boolean getEmail() {
-        try {
-            Statement st = conexionBD.conexionBD().createStatement();
-            ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and correu ='" + correo.getText().toString().trim() + "'");
 
-            if (rs.next()) {
+        if(!correo.getText().toString().equals("")){
+            usuariosBD.setCorreo(correo.getText().toString());
+            if(usuariosBD.getEmail().equals(correo.getText().toString())){
                 validarcorreo = true;
-            } else {
+            }else{
                 validarcorreo = false;
             }
-
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }else{
+            validarcorreo = false;
         }
 
         return validarcorreo;
