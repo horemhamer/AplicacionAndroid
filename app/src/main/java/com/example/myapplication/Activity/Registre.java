@@ -1,6 +1,5 @@
 package com.example.myapplication.Activity;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,28 +19,15 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.myapplication.Entidades.BaseDatos.DataBase;
-import com.example.myapplication.Entidades.BaseDatos.Usuarios;
-import com.example.myapplication.Entidades.Firebase.Usuario;
+import com.example.myapplication.Entidades.BaseDatos.UsuariosBD;
+import com.example.myapplication.Entidades.Logica.Usuarios;
 import com.example.myapplication.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.common.collect.Range;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -57,13 +43,13 @@ public class Registre extends AppCompatActivity {
     ImageView imagenservei;
     boolean validar2, validarnombre, validarcorreo, validarimagen;
     Servicios servicios;
-    Usuarios usuarios = new Usuarios();
+    Usuarios usuarios;
+    UsuariosBD usuariosBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registre);
-        usuarios = new Usuarios();
         imagenservei = findViewById(R.id.ImagenServicio);
         confirmar = (Button) findViewById(R.id.btnConfirmar);
         ProfileImage = (CircleImageView) findViewById(R.id.profile_image);
@@ -76,12 +62,18 @@ public class Registre extends AppCompatActivity {
         especialidad = findViewById(R.id.editServei);
         desc = findViewById(R.id.editDescripcion);
         servicios = new Servicios();
-
+        usuarios = new Usuarios();
+        usuariosBD = new UsuariosBD();
 
            confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                guardarUsuarios();
+            //    guardarUsuarios();
+
+                usuarios.setNombre(nusuari.getText().toString());
+
+                    Toast.makeText(getApplicationContext(), usuariosBD.getNombreUsuario(), Toast.LENGTH_SHORT).show();
+
 
 
             }
@@ -225,20 +217,11 @@ public class Registre extends AppCompatActivity {
 
 
 
-      /*  try {
-            Statement st = conexionBD.conexionBD().createStatement();
-            ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and usuari ='" + nusuari.getText().toString().trim() + "'");
-
-            if (rs.next()) {
-                validarnombre = true;
-            } else {
-                validarnombre = false;
-            }
-
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }*/
-
+        if(usuarios.getNombre().equals(usuariosBD.getNombreUsuario())){
+            validarnombre = true;
+        }else{
+            validarnombre = false;
+        }
 
 
 

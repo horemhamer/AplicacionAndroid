@@ -2,23 +2,27 @@ package com.example.myapplication.Entidades.BaseDatos;
 
 import android.widget.Toast;
 
+import com.example.myapplication.Entidades.Logica.Usuarios;
+
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Usuarios extends DataBase {
-
-    String rcorreo;
-    String rnombre;
+public class UsuariosBD extends DataBase {
+    Usuarios usuarios;
 
 
-    public Usuarios() {
+
+    public UsuariosBD() {
+        usuarios = new Usuarios();
     }
 
-    protected String getNombreUsuario(String nombre) {
 
+
+    public String getNombreUsuario() {
+        String rnombre = "a";
         try {
             Statement st = conexionBD().createStatement();
-            ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and usuari ='" +nombre + "'");
+            ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and usuari ='" + usuarios.getNombre()+ "'");
 
             if (rs.next()) {
                 rnombre = rs.getString("usuari");
@@ -31,10 +35,11 @@ public class Usuarios extends DataBase {
         return rnombre;
     }
 
-    protected String getEmail(String correo) {
+    public String getEmail() {
+        String rcorreo = "";
         try {
             Statement st = conexionBD().createStatement();
-            ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and correu ='" + correo + "'");
+            ResultSet rs = st.executeQuery("select*  from Usuari where tipus_usuari='Final' and correu ='" +usuarios.getCorreo()+ "'");
 
             if (rs.next()) {
                rcorreo = rs.getString("correu");
