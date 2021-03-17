@@ -55,9 +55,11 @@ public class Servicios extends AppCompatActivity {
         byte[] bytes;
         if(getEmail()){
             try{
+                int id = Integer.parseInt(getIDUsuario().toString());
 
                 Statement st=dataBase.conexionBD().createStatement();
-                ResultSet rs = st.executeQuery(" select * from Serveis where id_servei  = '"+Ids()+"'");
+
+                ResultSet rs = st.executeQuery(" select *  from Serveis where id_servei = '"+id+"'");
 
 
                 while(rs.next()){
