@@ -1,44 +1,19 @@
 package com.example.myapplication.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.myapplication.Constantes.Constantes;
-import com.example.myapplication.Entidades.Firebase.Mensaje;
-import com.example.myapplication.Entidades.Firebase.Usuario;
-import com.example.myapplication.Entidades.Logica.LMensaje;
-import com.example.myapplication.Entidades.Logica.LUsuario;
-import com.example.myapplication.Persistencia.MensajeriaDAO;
-import com.example.myapplication.Persistencia.UsuarioDAO;
 import com.example.myapplication.R;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -50,7 +25,7 @@ public class Chat extends AppCompatActivity {
     EditText txtMensaje;
     Button btnEnviar, btnMenu;
     FirebaseAuth mAuth;
-    AdaptarMensajes adaptador;
+    //AdaptarMensajes adaptador;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     ImageButton btnEnviarFoto;
@@ -63,9 +38,11 @@ public class Chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Bundle bundle = getIntent().getExtras();
-        if(bundle!=null){
+        if (bundle != null) {
             KEY_RECEPTOR = bundle.getString("key_receptor");
-        }else{finish();}
+        } else {
+            finish();
+        }
 
         fotoPerfil = findViewById(R.id.fotoPerfilChat);
         nombre = findViewById(R.id.nombreUser);
@@ -74,15 +51,15 @@ public class Chat extends AppCompatActivity {
         btnEnviar = findViewById(R.id.btnEnviarMensaje);
         btnEnviarFoto = findViewById(R.id.btnEnviarFoto);
         btnMenu = findViewById(R.id.btnMenu);
-        adaptador = new AdaptarMensajes(this);
+   //     adaptador = new AdaptarMensajes(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mAuth = FirebaseAuth.getInstance();
 
-       firebaseStorage = FirebaseStorage.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
         rMensajes.setLayoutManager(linearLayoutManager);
-        rMensajes.setAdapter(adaptador);
-
+       // rMensajes.setAdapter(adaptador);
+/*
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +115,6 @@ public class Chat extends AppCompatActivity {
             Map<String, LUsuario> mapUsuariosTemporales = new HashMap<>();
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
                final Mensaje m = dataSnapshot.getValue(Mensaje.class);
                final LMensaje lMensaje = new LMensaje(dataSnapshot.getKey(),m);
                final int posicion =  adaptador.añadirMensaje(lMensaje);
@@ -244,5 +220,6 @@ public class Chat extends AppCompatActivity {
                 }
             });
         }
+    }*/
     }
 }

@@ -15,6 +15,7 @@ import com.example.myapplication.R;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Servicios extends AppCompatActivity {
@@ -81,15 +82,13 @@ public class Servicios extends AppCompatActivity {
         return listaObjeto;
     }
 
-    protected int[] Ids(){
-        int[] ret = new int[getIDUsuario().size()];
-
-            for(i=0; i<ret.length;i++){
-                ret[i] = getIDUsuario().get(i).intValue();
-
-            }
-
-        return ret;
+    protected int Ids(){
+        Iterator <Integer> it = getIDUsuario().iterator();
+        int num=0;
+       while (it.hasNext()){
+           num = it.next();
+       }
+        return num;
 
     }
 

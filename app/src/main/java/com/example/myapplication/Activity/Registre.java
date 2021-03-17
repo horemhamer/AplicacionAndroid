@@ -42,8 +42,6 @@ public class Registre extends AppCompatActivity {
     private int intedad = 0;
     ImageView imagenservei;
     boolean validar2, validarnombre, validarcorreo, validarimagen;
-    Servicios servicios;
-    Usuarios usuarios;
     UsuariosBD usuariosBD;
 
     @Override
@@ -61,8 +59,7 @@ public class Registre extends AppCompatActivity {
         localizacion = findViewById(R.id.editLocalizacion);
         especialidad = findViewById(R.id.editServei);
         desc = findViewById(R.id.editDescripcion);
-        servicios = new Servicios();
-        usuarios = new Usuarios();
+
         usuariosBD = new UsuariosBD();
 
            confirmar.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +67,7 @@ public class Registre extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                otrasValidaciones();
+
                  guardarUsuarios();
 
 

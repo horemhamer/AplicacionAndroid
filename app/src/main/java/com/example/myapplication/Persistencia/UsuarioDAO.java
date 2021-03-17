@@ -2,22 +2,19 @@ package com.example.myapplication.Persistencia;
 
 import androidx.annotation.NonNull;
 
-import com.example.myapplication.Entidades.Firebase.Usuario;
-import com.example.myapplication.Entidades.Logica.LUsuario;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.Constants;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class UsuarioDAO {
 
     public interface IDevolverUsuario{
-        public void devolverUsuario(LUsuario lUsuario);
         public void devolverError(String error);
     }
 
@@ -59,9 +56,7 @@ public class UsuarioDAO {
         referenceUsuarios.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                LUsuario lUsuario = new LUsuario(key,usuario);
-               iDevolverUsuario.devolverUsuario(lUsuario);
+
 
             }
 
