@@ -21,61 +21,57 @@ import java.util.List;
 public class Servicios extends AppCompatActivity {
     private DataBase conexionBD = new DataBase();
     ListView lServicios;
-   AdaptadorServicios adaptador;
-    List <InfoServicio>listaObjeto = new ArrayList<>();
+    AdaptadorServicios adaptador;
+    List<InfoServicio> listaObjeto = new ArrayList<>();
 
     DataBase dataBase = new DataBase();
     Drawable image, imagenperfil;
     String correo;
-   List<Integer> idusuario = new ArrayList<>();
+    int idusuario;
     boolean comprobaremail;
     int i;
     Preferencias preferencias = new Preferencias();
+    String s;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_servicios);
         preferencias.cargarPreferencias(this);
         correo = preferencias.getCorreo();
- lServicios = findViewById(R.id.lServicios);
-       adaptador = new AdaptadorServicios(this, R.layout.servicios_view,Lista());
-      lServicios.setAdapter(adaptador);
+        lServicios = findViewById(R.id.lServicios);
+        adaptador = new AdaptadorServicios(this, R.layout.servicios_view, Lista());
+        lServicios.setAdapter(adaptador);
 
-  //   setContentView(lServicios);
-
-
+        //   setContentView(lServicios);
+        Toast.makeText(getApplicationContext(), getNombre(), Toast.LENGTH_SHORT).show();
 
     }
 
 
-
-
-
-    protected List<InfoServicio> Lista(){
+    protected List<InfoServicio> Lista() {
         byte[] bytes;
-        if(getEmail()){
-            try{
-                int id = Integer.parseInt(getIDUsuario().toString());
+       if (getEmail()) {
+            try {
 
-                Statement st=dataBase.conexionBD().createStatement();
+                Statement st = dataBase.conexionBD().createStatement();
 
-                ResultSet rs = st.executeQuery(" select *  from Serveis where id_servei = '"+id+"'");
+                ResultSet rs = st.executeQuery(" select *  from Serveis where id_usuari != " +getIDUsuario()+ "");
 
 
-                while(rs.next()){
+                while (rs.next()) {
 
                     bytes = rs.getBytes("imatge_servei");
-                    image = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(bytes,0,bytes.length));
-                    try{
-                        listaObjeto.add(new InfoServicio(getNombre(),rs.getString("titol"),rs.getString("descripcio"),getImagenPerfil(), image));
+                    image = new BitmapDrawable(getResources(), BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                    try {
+                        listaObjeto.add(new InfoServicio(getNombre(), rs.getString("titol"), rs.getString("descripcio"), getImagenPerfil(), image));
+                       // listaObjeto.add(new InfoServicio("","","",null,null));
 
-
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
@@ -84,98 +80,81 @@ public class Servicios extends AppCompatActivity {
         return listaObjeto;
     }
 
-    protected int Ids(){
-        Iterator <Integer> it = getIDUsuario().iterator();
-        int num=0;
-       while (it.hasNext()){
-           num = it.next();
-       }
-        return num;
-
-    }
 
 
-
-
-    protected Drawable getImagenPerfil(){
+    protected Drawable getImagenPerfil() {
         byte[] bytes;
-        try{
-            Statement st=conexionBD.conexionBD().createStatement();
-            ResultSet rs= st.executeQuery("select * from Usuari where tipus_usuari = 'Final' and correu !='"+correo.trim()+"'");
+        try {
+            Statement st = conexionBD.conexionBD().createStatement();
+            ResultSet rs = st.executeQuery("select * from Usuari where tipus_usuari = 'Final' and correu !='" + correo.trim() + "'");
 
-            while (rs.next()){
+            while (rs.next()) {
                 bytes = rs.getBytes("imatge");
-                imagenperfil = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(bytes,0,bytes.length));
+                imagenperfil = new BitmapDrawable(getResources(), BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
 
             }
 
-        }catch(Exception e){
-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         return imagenperfil;
     }
 
-    protected String  getNombre(){
-        String s = "";
-        try{
-            Statement st=conexionBD.conexionBD().createStatement();
-            ResultSet rs= st.executeQuery("select * from Usuari where tipus_usuari = 'Final' and correu !='"+correo.trim()+"'");
+    protected String getNombre() {
 
-            while (rs.next()){
+        try {
+            Statement st = conexionBD.conexionBD().createStatement();
+            ResultSet rs = st.executeQuery("select * from Usuari where tipus_usuari = 'Final' ");
+
+            while (rs.next()) {
                 s = rs.getString("usuari");
             }
 
-        }catch(Exception e){
-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         return s;
     }
 
 
-    protected boolean  getEmail(){
+    protected boolean getEmail() {
 
-        try{
-            Statement st=conexionBD.conexionBD().createStatement();
+        try {
+            Statement st = conexionBD.conexionBD().createStatement();
 
-                ResultSet rs= st.executeQuery("select * from Usuari where tipus_usuari = 'Final'  and id_usuari ='"+getIDUsuario()+"'");
-                if (rs.next()){
+            ResultSet rs = st.executeQuery("select * from Usuari where tipus_usuari = 'Final'  and id_usuari ='" + getIDUsuario() + "'");
+            if (rs.next()) {
 
-                    comprobaremail = true;
-                }else {
-                    comprobaremail = false;
-                }
-
-
+                comprobaremail = true;
+            } else {
+                comprobaremail = false;
+            }
 
 
-
-        }catch(Exception e){
-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
-
-
 
 
         return comprobaremail;
     }
 
 
-    protected List<Integer> getIDUsuario(){
+    protected int  getIDUsuario() {
 
-        try{
-            Statement st=conexionBD.conexionBD().createStatement();
-            ResultSet rs= st.executeQuery("select* from Usuari where tipus_usuari='Final' and correu!='"+correo.trim()+"'");
+        try {
+            Statement st = conexionBD.conexionBD().createStatement();
+            ResultSet rs = st.executeQuery("select* from Usuari where tipus_usuari='Final' and correu='" + correo.trim() + "'");
 
-            while (rs.next()){
+            while (rs.next()) {
 
-                idusuario.add(rs.getInt("id_usuari"));
+                idusuario = rs.getInt("id_usuari");
             }
 
-        }catch(Exception e){
-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
 

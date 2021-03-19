@@ -185,6 +185,7 @@ public class Registre extends AppCompatActivity {
         } catch(NumberFormatException nfe) {
             // Handle parse error.
         }
+        otrasValidaciones();
 
         try{
 
@@ -207,7 +208,7 @@ public class Registre extends AppCompatActivity {
 
         }catch (Exception e){
 
-            Toast.makeText(getApplicationContext(),"Mal",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -216,32 +217,32 @@ public class Registre extends AppCompatActivity {
 
     protected boolean getNombreUsuario() {
 
-        if(!nusuari.getText().toString().equals("")){
+        try {
             usuariosBD.setNombre(nusuari.getText().toString());
             if(usuariosBD.getNombreUsuario().equals(nusuari.getText().toString())){
                 validarnombre = true;
             }else{
                 validarnombre = false;
             }
-        }else{
-            validarnombre = false;
-        }
 
+        }catch (Exception e){
+
+        }
         return validarnombre;
     }
 
     protected boolean getEmail() {
 
-        if(!correo.getText().toString().equals("")){
+        try {
             usuariosBD.setCorreo(correo.getText().toString());
             if(usuariosBD.getEmail().equals(correo.getText().toString())){
                 validarcorreo = true;
             }else{
                 validarcorreo = false;
             }
-        }else{
-            validarcorreo = false;
-        }
+        }catch (Exception e){}
+
+
 
         return validarcorreo;
     }
