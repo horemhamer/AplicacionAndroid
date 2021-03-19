@@ -50,7 +50,7 @@ public class Servicios extends AppCompatActivity {
 
     protected List<InfoServicio> Lista() {
         byte[] bytes;
-       if (getEmail()) {
+     //  if (getEmail()) {
             try {
 
                 Statement st = dataBase.conexionBD().createStatement();
@@ -74,7 +74,7 @@ public class Servicios extends AppCompatActivity {
             } catch (Exception e) {
 
             }
-        }
+       // }
 
 
         return listaObjeto;
@@ -105,7 +105,7 @@ public class Servicios extends AppCompatActivity {
 
         try {
             Statement st = conexionBD.conexionBD().createStatement();
-            ResultSet rs = st.executeQuery("select * from Usuari where tipus_usuari = 'Final' ");
+            ResultSet rs = st.executeQuery("select * from Usuari where tipus_usuari = 'Final'  and id_usuari !='" + getIDUsuario() + "'");
 
             while (rs.next()) {
                 s = rs.getString("usuari");
